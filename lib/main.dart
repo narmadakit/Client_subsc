@@ -48,7 +48,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           theme: MyAppThemes.lightTheme,
           darkTheme: MyAppThemes.darkTheme,
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.system,
           home: const SplashScreen(),
           routes: {
             '/loginScreen':(context) => const LoginScreen(),

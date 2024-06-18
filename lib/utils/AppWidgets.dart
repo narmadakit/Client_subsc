@@ -86,9 +86,19 @@ class AppWidgets{
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text(content,style: TextStyle(color: Colors.black),),
+        content: Text(content,style: TextStyle(color: Colors.white),),
         backgroundColor: color,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 5),
+      ));
+  }
+
+  static showSnackBarDismiss(BuildContext context, String content, Color color) {
+    ScaffoldMessenger.of(context)
+      ..removeCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text(content,style: TextStyle(color: Colors.white),),
+        backgroundColor: color,
+        duration: const Duration(seconds: 5),
       ));
   }
 }

@@ -40,6 +40,26 @@ class _BidOfferScreenState extends State<BidOfferScreen> {
     super.initState();
   }
 
+  num calculateNumber(num enteredNumber, String? minDiscount, String? maxDiscount) {
+    if((enteredNumber > num.parse(minDiscount!)) && (enteredNumber <= num.parse(maxDiscount!) )){
+      num a = enteredNumber % 100;
+      if (a > 0) {
+        // num jj=(enteredNumber ~/ 100) * 100 + 100;
+        AppWidgets.showSnackBar(context, 'Amount should be multiple of 100',Colors.red);
+        bidOfferController.clear();
+      }
+      else {
+        print('Saved success');
+        print('+++++++++++++++ number $enteredNumber');
+      }
+    }
+    else{
+      AppWidgets.showSnackBar(context, 'Enter amount should be Max dis offered $minDiscount to Maximum Discount allowed $maxDiscount',Colors.red);
+      bidOfferController.clear();
+    }
+    return enteredNumber;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -217,13 +237,29 @@ class _BidOfferScreenState extends State<BidOfferScreen> {
                         saveBidOfferRequest.minDiscount = minDiscount;
                         saveBidOfferRequest.offerAmount = bidOfferController.text;
                         saveBidOfferRequest.ticketno = widget.ticketno.toString();
-                        BlocProvider.of<BidOfferBloc>(context).add(SaveBidOfferEvent(saveBidOfferRequest));
-                        await Future.delayed(const Duration(seconds: 2));
-                        BlocProvider.of<BidOfferBloc>(context).add(GetMaxBidEvent(saveBidOfferRequest.groupcode,saveBidOfferRequest.branchName,widget.auctionMonth));
-                      },
+
+                        if((num.parse(bidOfferController.text) > num.parse(minDiscount!)) && (num.parse(bidOfferController.text) <= num.parse(maxDiscount!) )){
+                          num a = num.parse(bidOfferController.text) % 100;
+                          if (a > 0) {
+                            AppWidgets.showSnackBar(context, 'Amount should be multiple of 100',Colors.red);
+                            bidOfferController.clear();
+                          }
+                          else {
+                            BlocProvider.of<BidOfferBloc>(context).add(SaveBidOfferEvent(saveBidOfferRequest));
+                            await Future.delayed(const Duration(seconds: 2));
+                            BlocProvider.of<BidOfferBloc>(context).add(GetMaxBidEvent(saveBidOfferRequest.groupcode,saveBidOfferRequest.branchName,widget.auctionMonth));
+
+                            print('Saved success');
+                          }
+                        }
+                        else{
+                          AppWidgets.showSnackBar(context, 'Enter amount should be Max dis offered $minDiscount to Maximum Discount allowed $maxDiscount',Colors.red);
+                          bidOfferController.clear();
+                        }
+                        },
                       child: Center(
                         child: Text(
-                          "Proceed".toUpperCase(),
+                          "Submit".toUpperCase(),
                           style: getLoginTextStyle(fontSize: 14,
                               fontWeight: FontWeight.w800,
                               color: Colors.black),
@@ -232,12 +268,16 @@ class _BidOfferScreenState extends State<BidOfferScreen> {
                     );
                   }
                 },
-                listener: (context, state) {
+                listener: (context, state) async {
                 if(state is SaveBidErrorState){
                   AppWidgets.showSnackBar(context, '${state.saveBidOfferResponse.statusmsg}',Colors.red);
+                  bidOfferController.clear();
                 }
                 if(state is SaveBidSuccessState){
-                  AppWidgets.showSnackBar(context, '${state.saveBidOfferResponse.statusmsg}',Colors.green);
+                  AppWidgets.showSnackBar(context, '${state.saveBidOfferResponse.statusmsg}!',Colors.green);
+                  bidOfferController.clear();
+                  await Future.delayed(const Duration(seconds: 2));
+                  Navigator.pop(context);
                 }
                 },
               ),

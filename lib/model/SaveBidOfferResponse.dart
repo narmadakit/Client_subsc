@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+SaveBidOfferResponse responseModelFromJsonSaveBid(String str) => SaveBidOfferResponse.fromJson(json.decode(str));
 class SaveBidOfferResponse {
   String? statusmsg;
 

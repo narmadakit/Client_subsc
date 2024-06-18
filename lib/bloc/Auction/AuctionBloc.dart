@@ -20,7 +20,6 @@ class AuctionBloc extends Bloc<AuctionEvent,AuctionState>{
       try{
         List<AuctionReponse> auctionList=await repo.getAuctionDetails(event.mobileNo);
         if(auctionList.isNotEmpty){
-          print('Auction List not empty-----------------$auctionList');
           emit(AuctionLoadedState(auctionList));
         }
         else{

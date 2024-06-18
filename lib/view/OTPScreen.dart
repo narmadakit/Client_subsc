@@ -71,20 +71,7 @@ class _OTPScreenState extends State<OTPScreen> {
     double boxHeight=size.height * 0.06;
     // var verifyBloc = BlocProvider.of<LoginBloc>(context, listen: false);
     return Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal:  15.0),
-            child: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Image.asset(
-                'assets/images/arrow-left.png',
-                color: Theme.of(context).iconTheme.color,
-              ),
-            ),
-          ),
-        ),
+        appBar: AppWidgets.appbarWidget('', () => Navigator.pop(context),context),
         body:
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -320,7 +307,7 @@ class _OTPScreenState extends State<OTPScreen> {
                                   "Verify OTP  ",
                                   style: getLoginTextStyle(fontSize: 14,
                                       fontWeight: FontWeight.w800,
-                                      color: Colors.black),
+                                      ),
                                 ),
                                 Image.asset(
                                   'assets/images/right-arrow.png',

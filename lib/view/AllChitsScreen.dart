@@ -6,6 +6,7 @@ import 'package:client_subscriber/bloc/AllChit/AllChitsEvent.dart';
 import 'package:client_subscriber/bloc/AllChit/AllChitsState.dart';
 import 'package:client_subscriber/model/LoginResponse.dart';
 import 'package:client_subscriber/view/ConfirmationScreen.dart';
+import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
@@ -33,7 +34,9 @@ class _AllChitsScreenState extends State<AllChitsScreen> with TickerProviderStat
   bool isPlaying = false;
 
   HashMap<int, String> payingAmountHashmap = HashMap();
-  double totalPayingAmount = 0;
+  num totalPayingAmount = 0;
+  num totalDueAmt = 0;
+  num remainigTotAmt = 0;
   final List<TextEditingController> controllers = [];
 
   final checked = false;
@@ -66,7 +69,7 @@ class _AllChitsScreenState extends State<AllChitsScreen> with TickerProviderStat
             padding: MediaQuery.of(context).viewInsets,
             child: Container(
               color: Colors.black,
-                height: size.height * 0.18,
+                height: size.height * 0.17,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Padding(
@@ -79,14 +82,14 @@ class _AllChitsScreenState extends State<AllChitsScreen> with TickerProviderStat
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('₹${AppWidgets.formatCurrency.format(totalPayingAmount)}', style: TextStyle(color: AppStyles.fadePinkColor, fontWeight: FontWeight.w600)),
+                                Text('₹${AppWidgets.formatCurrency.format(totalDueAmt)}', style: TextStyle(color: AppStyles.fadePinkColor, fontWeight: FontWeight.w600)),
                                 Text('Total Due', style: TextStyle(fontSize: 12)),
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('₹${AppWidgets.formatCurrency.format(totalPayingAmount)}', style: TextStyle(color:AppStyles.fadePinkColor, fontWeight: FontWeight.w600)),
+                                Text('₹${AppWidgets.formatCurrency.format(remainigTotAmt)}', style: TextStyle(color:AppStyles.fadePinkColor, fontWeight: FontWeight.w600)),
                                 Text('Remaining', style: TextStyle(fontSize: 12)),
                               ],
                             ),
@@ -160,6 +163,12 @@ class _AllChitsScreenState extends State<AllChitsScreen> with TickerProviderStat
                         itemCount: state.model.length,
                         itemBuilder: (context, index) {
                           controllers.add(TextEditingController());
+                          num totDue=0;
+                          for(var a in state.model){
+                            totDue += (a.pdue != null)?a.pdue!:0;
+                            totalDueAmt = totDue;
+                          }
+                          remainigTotAmt = totalDueAmt;
                           return Padding(
                             padding: AppStyles.screenPaddingH.copyWith(bottom: 10),
                             child: Card(
@@ -334,7 +343,11 @@ class _AllChitsScreenState extends State<AllChitsScreen> with TickerProviderStat
                                               width: 100,
                                               height: 40,
                                               child: TextField(
+                                                inputFormatters: [
+                                                 CurrencyTextInputFormatter.currency(locale: "en_US",decimalDigits: 0, name: "")
+                                                ],
                                                 onChanged: (value) {
+                                                  value = value.replaceAll(',', '');
                                                   updatePayingAmount(index, value);
                                                 },
                                                 controller: controllers[index],
@@ -364,63 +377,6 @@ class _AllChitsScreenState extends State<AllChitsScreen> with TickerProviderStat
                         },
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    //   child: Padding(
-                    //     padding: const EdgeInsets.only(bottom: 28.0, left: 15, right: 15, top: 5),
-                    //     child: Column(
-                    //       children: [
-                    //         Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                    //               children: [
-                    //                 Text('₹${AppWidgets.formatCurrency.format(totalPayingAmount)}', style: TextStyle(color: AppStyles.fadePinkColor, fontWeight: FontWeight.w600)),
-                    //                 Text('Total Due', style: TextStyle(fontSize: 12)),
-                    //               ],
-                    //             ),
-                    //             Column(
-                    //               crossAxisAlignment: CrossAxisAlignment.start,
-                    //               children: [
-                    //                 Text('₹${AppWidgets.formatCurrency.format(totalPayingAmount)}', style: TextStyle(color:AppStyles.fadePinkColor, fontWeight: FontWeight.w600)),
-                    //                 Text('Remaining', style: TextStyle(fontSize: 12)),
-                    //               ],
-                    //             ),
-                    //           ],
-                    //         ),
-                    //         SizedBox(height: 10,),
-                    //         GestureDetector(
-                    //           onTap: () {
-                    //             if(totalPayingAmount == 0){
-                    //               AppWidgets.showSnackBar(context, 'Enter your subscription amount',Colors.black);
-                    //             }
-                    //             else{
-                    //               Navigator.push(context, MaterialPageRoute(builder: (context) =>const ConfirmationScreen()));
-                    //             }
-                    //           },
-                    //           child: Container(
-                    //             height: 45,
-                    //             decoration: BoxDecoration(
-                    //               borderRadius: BorderRadius.circular(10),
-                    //               gradient: const LinearGradient(
-                    //                 begin: Alignment.topLeft,
-                    //                 end: Alignment.bottomRight,
-                    //                 colors: [Colors.cyan, Colors.cyanAccent],
-                    //               ),
-                    //             ),
-                    //             child: Center(
-                    //               child: Text(
-                    //                 totalPayingAmount == 0 ? "Pay  Now".toUpperCase() : "PAY ${ShowUtils.getAmountWithCommas(totalPayingAmount)}",
-                    //                 style: getLoginTextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               );
@@ -441,7 +397,6 @@ class _AllChitsScreenState extends State<AllChitsScreen> with TickerProviderStat
     });
     setState(() {
       totalPayingAmount;
-      remainingAmt = totalPayingAmount;
     });
     if (payingAmountHashmap.containsKey(index)) {
       var value = payingAmountHashmap[index];

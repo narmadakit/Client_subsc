@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:client_subscriber/bloc/BidOffer/BidOfferEvent.dart';
@@ -41,10 +42,10 @@ class BidOfferBloc extends Bloc<BidofferEvent,BidofferState>{
        responseData =await repo.saveBidOffer(event.bidOfferRequest);
       if(responseData.statusmsg == "Bid Offer Saved Sucessfully"){
         emit(SaveBidSuccessState(responseData));
+        emit(SaveBidLoadingState());
       }
       else {
         emit(SaveBidErrorState(responseData));
-
       }
     }
     catch(e){

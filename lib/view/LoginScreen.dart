@@ -32,16 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
     var loginBloc= BlocProvider.of<LoginBloc>(context, listen: false);
     return Scaffold(
       // backgroundColor:  Theme.of(context).scaffoldBackgroundColor,
-      appBar: AppBar(
-     leading:    Padding(
-          padding: const EdgeInsets.symmetric(horizontal:  15.0),
-          child: Image.asset(
-            'assets/images/arrow-left.png',
-            // color: Colors.white,
-            color: Theme.of(context).iconTheme.color,
-          ),
-        ),
-      ),
       body: Column(
         children: [
           Expanded(
@@ -152,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               Image.asset(
                                 'assets/images/right-arrow.png',
                                 height: 16,
-                                color: Theme.of(context).indicatorColor,
                               ),
                               // Icon(Icons.arrow_forward,color: Colors.black,)
                             ],
@@ -192,7 +181,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         );
                       }
-
                     },
                     listener: (context, state) {
                       if(state is LoginSuccessState){

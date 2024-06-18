@@ -33,10 +33,8 @@ class BidRepo{
         }),
       data: jsonEncode(bidOfferRequest)
     );
-    print('+++++++++++++++++++++++++++++++ ${jsonEncode(bidOfferRequest)}');
     if (response.statusCode == 200) {
-      print('Sucesss --responseData --  ${response.data}');
-      // responseData = responseModelFromJson(jsonEncode(response.data));
+      responseData = responseModelFromJsonSaveBid(jsonEncode(response.data));
       return responseData;
     }
   }

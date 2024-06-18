@@ -28,15 +28,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if(data == null) {
       setState(() {
       isLogin = false;
-      Navigator.of(context).pushNamed('/loginScreen');
+      Navigator.of(context).pushReplacementNamed('/loginScreen');
       });
     }
     else{
-      // setState(() {
       isLogin = true;
-      // });
-      // loginData = LoginResponseModel.fromJson(await prefs.read("loginData"));
-      Navigator.of(context).pushNamed('/usePinScreen');
+      Navigator.of(context).pushReplacementNamed('/usePinScreen');
     }
   }
 

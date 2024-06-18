@@ -58,10 +58,29 @@ class _UsePinScreenState extends State<UsePinScreen> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     double gapHeight=size.height * 0.025;
-    double boxHeight=size.height * 0.06;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).pushNamed('/resetPinScreen');
+              },
+              child: Row(
+                children: [
+                  const Text('Reset pin ',),
+                  Image.asset(
+                    'assets/images/reset-pin.png',
+                    height: 22,
+                    color: Colors.amber,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -79,11 +98,11 @@ class _UsePinScreenState extends State<UsePinScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Enter Pin',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
-                SizedBox(height: 5),
+                const SizedBox(height: 5),
                 Text(
                   'enter your 4 digit pin',
                   style: AppStyles.headingTxtStyle1.copyWith(fontWeight: FontWeight.w400,fontSize: 15,),
@@ -106,9 +125,6 @@ class _UsePinScreenState extends State<UsePinScreen> {
                       length: 4,
                       obscureText: true,
                       obscuringCharacter: '*',
-                      // obscuringWidget: const FlutterLogo(
-                      //   size: 24,
-                      // ),
                       blinkWhenObscuring: true,
                       autovalidateMode: AutovalidateMode.disabled,
                       animationType: AnimationType.fade,
@@ -142,7 +158,7 @@ class _UsePinScreenState extends State<UsePinScreen> {
                       errorAnimationController: errorController,
                       controller: OTPController,
                       keyboardType: TextInputType.number,
-                      textStyle: TextStyle(color: Colors.white),
+                      textStyle: const TextStyle(color: Colors.white),
                       boxShadows: const [
                         BoxShadow(
                           offset: Offset(0, 1),
@@ -153,11 +169,7 @@ class _UsePinScreenState extends State<UsePinScreen> {
                       onCompleted: (v) {
                         debugPrint("Completed");
                       },
-                      // onTap: () {
-                      //   print("Pressed");
-                      // },
                       onChanged: (value) {
-                        debugPrint(value);
                         setState(() {
                           currentText = value;
                           if(currentText.length == 4) {
@@ -179,7 +191,6 @@ class _UsePinScreenState extends State<UsePinScreen> {
                     ),
                   ),
                 ),
-
               ],
             ),
           ),

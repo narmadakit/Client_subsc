@@ -52,15 +52,13 @@ class _AuctionScreenState extends State<AuctionScreen> {
         }
       },
     );
-    print('calling --------------');
-
   }
   void _stopTimer() {
     timer.cancel();
     // Do something when the timer is stopped, like navigate to another screen
   }
   callApi(){
-      // context.read<AuctionBloc>().add(GetAuctionDetailsEvent('8985812695'));
+      context.read<AuctionBloc>().add(GetAuctionDetailsEvent('8985812695'));
   }
 
   @override
@@ -104,10 +102,13 @@ class _AuctionScreenState extends State<AuctionScreen> {
         builder: (context, state) {
           print('Initial state++++++++++ $state');
           if(state is AuctionInitialState){
-            return ShimmerScreens.shimmerLoader();
+            // return ShimmerScreens.shimmerLoader();
+            return Container(
+              height: 200,
+              color: Colors.red,
+            );
           }
-          return
-            buildBody();
+          return buildBody();
         },
         listener: (context, state) {
           if (state is AuctionErrorState) {

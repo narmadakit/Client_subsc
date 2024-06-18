@@ -258,7 +258,7 @@ class _ResetPinScreenState extends State<ResetPinScreen> {
                   Navigator.push(context, MaterialPageRoute(builder: (context) =>const HomeScreen()));
                 }
                 else{
-                  // Constants.showSnackBar(context, 'Enter correct pin',Colors.red);
+                  AppWidgets.showSnackBar(context, 'Enter correct pin',Colors.red);
                 }
               },
               child: Container(

@@ -33,6 +33,7 @@ dependencies:
   flutter_timer_countdown: ^1.0.7
   weipl_checkout_flutter: ^1.0.7
   http: ^1.2.1
+  currency_text_input_formatter: ^2.2.3
 
 dev_dependencies:
   flutter_test:
