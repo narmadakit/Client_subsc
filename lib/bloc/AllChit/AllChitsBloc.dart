@@ -19,7 +19,6 @@ class AllChitsBloc extends Bloc<AllChitsEvent,AllChitsState>{
         List<AllChitsModel> chitsModelList = await repo.getAllChitLists(event.mobileNo);
         if(chitsModelList.isNotEmpty){
           emit(ChitLoadedState(chitsModelList));
-          print('----------All ChitLit');
         }
         else{
           emit(ChitErrorState());

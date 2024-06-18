@@ -27,7 +27,6 @@ class ChitsRepo{
         })
     );
     if (response.statusCode == 200) {
-      print('Sucesss --Allchitlist');
       listdata = AllChitsModel.fromJsonList(response.data);
     }
     return listdata;
@@ -45,7 +44,6 @@ class ChitsRepo{
     );
     if (response.statusCode == 200) {
       chitDetailsByNoModel = detailsByNoModelfromJson(jsonEncode(response.data));
-      print('++++++++++Details ${chitDetailsByNoModel}');
     }
     return chitDetailsByNoModel;
   }
